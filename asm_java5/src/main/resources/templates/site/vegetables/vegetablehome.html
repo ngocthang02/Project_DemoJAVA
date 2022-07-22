@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{site/sitelayout.html}">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<!-- Bootstrap CSS -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../site/css/css.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+		integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<link rel="stylesheet" href="../fontawesome-free-5.15.3-web/css/all.css" />
+	<link rel="stylesheet" href="css/site.css" />
+	<title>Trang chủ</title>
+</head>
+
+<body style="background-color: white;">
+
+	<!--Logo-->
+	<!--Thanh Menu-->
+	<!--slide-->
+	<!--content-->
+	<!--Logo-->
+	<!--Logo-->
+	<div class="row"
+		style="background-color: rgb(2,0,36); background :linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(32,121,122,1) 42%, rgba(0,212,255,1) 100%) ;">
+		<div class="container my-2">
+			<div class="row">
+				<a href="" class="mr-auto">
+					<img src="/images/FPT_Polytechnic.png" width="200" height="100">
+				</a>
+				<!--người dùng-->
+				<div class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false" style="color: white;">
+						<i class="fa fa-user mr-3" aria-hidden="true"></i>
+						<span>Site</span>
+						<span></span>
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" th:href="@{/site/logins}"><i class="fa fa-user mr-3"
+								aria-hidden="true"></i> Đăng nhập</a>
+						<a class="dropdown-item" th:href="@{/site/customers/add}"><i class="fa fa-user mr-3"
+								aria-hidden="true"></i> Đăng ký</a>
+						<a class="dropdown-item"><i class="fa fa-power-off mr-3" aria-hidden="true"></i>Đăng xuất</a>
+						<div class="dropdown-divider"></div>
+					</div>
+				</div>
+				<!--giỏ hàng-->
+				<div class="giohang">
+					<a th:href="@{/site/shoppingCart/list}">
+						<h6 style="color: white;" class="mx-2 mt-3">
+							<i class="fa fa-cart-plus" aria-hidden="true"></i>
+						</h6>
+					</a>
+					<div class="sl">
+						99+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<!--Thanh Menu-->
+	<header class="row" style="background-color: #f8f9fa;">
+		<div class="container">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<a class="navbar-brand" th:href="@{/site/home/sp}">Home</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/site/customers/edit}">Thông tin cá nhân</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/site/orders/list}">Danh sách order</a>
+						</li>
+					</ul>
+				</div>
+				<form class="form-inline" th:action="@{/site/home/search}">
+					<input class="form-control mr-sm-2" type="search" name="name"
+						placeholder="Tìm kiếm sản phẩm theo tên" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm kiếm</button>
+				</form>
+			</nav>
+		</div>
+	</header>
+	<div class="container" layout:fragment="content">
+		<div class="title">
+			<h3>Danh sách sản phẩm </h3>
+		</div>
+		<div class="row">
+
+			<div class="col-12 col-md-6 col-lg-4" th:each="product, iStat : ${productPage}">
+				<div th:if="${product.quantity > 0 }">
+					<div class="card">
+						<img class="card-img-top"
+							th:src="@{/uploads/images/p44f01a82-fbea-4973-a8e7-de283044941c.jpg}" />
+						<div class="card-body">
+							<h4 class="card-title"><a th:href="@{'/site/vegetable/detail/'+ ${product.productID}}"
+									title="View Product">[[${product.name}]]</a></h4>
+
+							<div class="row">
+								<div class="col">
+									<p class="btn btn-danger btn-block"> [[${product.unitPrice - product.discount/100 *
+										product.unitPrice}]]</p>
+								</div>
+								<div class="col">
+									<p style="text-decoration: line-through;"> [[${product.unitPrice}]]</p>
+								</div>
+								<div class="col">
+									<a th:href="@{'/site/vegetable/detail/'+ ${product.productID}}"
+										class="btn btn-success btn-block">Add to cart</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-end">
+					<th:if th:test="@{productPage.getNumber()>}+${0}">
+						<li class="page-item "><a class="page-link"
+								th:href="@{/site/home/sp?pageNumber= }+${productPage.getNumber()-1}">Previous</a>
+						</li>
+					</th:if>
+					<li class="page-item disable"><a class="page-link">[[${productPage.getNumber()+1 }]]
+							/[[ ${productPage.getTotalPages() } ]]</a></li>
+					<th:if th:test="@{productPage.getNumber()< productPage.getTotalPages()-}+${1}">
+						<li class="page-item"><a class="page-link"
+								th:href="@{/site/home/sp?pageNumber=}+${productPage.getNumber()+1 }">Next</a></li>
+					</th:if>
+				</ul>
+			</nav>
+			</div>
+		</div>
+	</div>
+	<!--Footer-->
+	<div class="row" style="background-color: #ebebeb;">
+		<footer class="row offset-6 my-5">
+			<h4>Footer</h4>
+		</footer>
+	</div>
+
+	<!-- Optional JavaScript; choose one of the two! -->
+	<!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"
+		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script>
+		$(document).ready(function () {
+			$(window).scroll(function () {
+				if ($(this).scrollTop() > 300) {
+					$('header').addClass('sticky');
+				} else {
+					$('header').removeClass('sticky');
+				}
+			});
+		});
+	</script>
+	<!-- Option 2: Separate Popper and Bootstrap JS -->
+	<!--
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+-->
+
+</body>
+
+</html>

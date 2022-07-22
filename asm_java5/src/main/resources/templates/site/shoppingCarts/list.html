@@ -1,0 +1,187 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{site/sitelayout.html}">
+
+
+<head>
+	<!-- Bootstrap CSS -->
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="../site/css/css.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+		integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<link rel="stylesheet" href="../fontawesome-free-5.15.3-web/css/all.css" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/css.css}" href="../../static/css/css.css" />
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<div class="row"
+		style="background-color: rgb(2,0,36); background :linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(32,121,122,1) 42%, rgba(0,212,255,1) 100%) ;">
+		<div class="container my-2">
+			<div class="row">
+				<a href="" class="mr-auto">
+					<img src="/images/FPT_Polytechnic.png" width="200" height="100">
+				</a>
+
+
+				<!--người dùng-->
+				<div class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+						<i class="fa fa-user mr-3" aria-hidden="true"></i>Site
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" th:href="@{/site/logins}"><i class="fa fa-user mr-3"
+								aria-hidden="true"></i> Đăng
+							nhập</a>
+						<a class="dropdown-item" th:href="@{/site/customers/add}"><i class="fa fa-user mr-3"
+								aria-hidden="true"></i> Đăng
+							ký</a>
+						<a class="dropdown-item" th:href="@{/site/logins/logOut}"><i class="fa fa-power-off mr-3"
+								aria-hidden="true"></i>Đăng
+							xuất</a>
+						<div class="dropdown-divider"></div>
+					</div>
+				</div>
+				<!--giỏ hàng-->
+				<div class="giohang">
+					<a th:href="@{/site/shoppingCart/list}">
+						<h6 style="color: white;" class="mx-2 mt-3">
+							<i class="fa fa-cart-plus" aria-hidden="true"></i>
+						</h6>
+					</a>
+					<div class="sl">
+						99+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<!--Thanh Menu-->
+	<header class="row" style="background-color: #f8f9fa;">
+		<div class="container">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<a class="navbar-brand" th:href="@{/site/home/sp}">Home</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/site/customers/edit}">Thông tin cá nhân</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/site/orders/list}">Danh sách order</a>
+						</li>
+
+					</ul>
+
+				</div>
+			</nav>
+		</div>
+	</header>
+	<div class="container" layout:fragment="content">
+
+
+		<div class="row my-5">
+			<div class="col-8">
+
+				<table class="table">
+					<thead>
+						<tr>
+							<td scope="col">Sản phẩm</td>
+							<td scope="col">Giá</td>
+							<td scope="col">Số lượng</td>
+							<td scope="col">&nbsp;</td>
+							<td scope="col">Thành tiền</td>
+							<td scope="col">&nbsp;</td>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- 1 -->
+						<tr th:each="item : ${cartItem}">
+							<form th:action="@{/site/shoppingCart/update}" method="post">
+								<td>
+									<div th:class="|row ${item.productID}|">
+										<div class="col-3">
+											<a href="">
+
+											</a>
+										</div>
+										<div class="col-9">
+											<a href="">
+												[[${item.name}]]
+											</a>
+										</div>
+									</div>
+								</td>
+								<td>
+									<p>[[${item.unitPrice - item.discount/100 * item.unitPrice}]]</p>
+								</td>
+								<td>
+									<input class="detail-number" type="hidden" name="productID"
+										th:value="${item.productID}">
+									<input class="detail-number" type="number" name="quantity" min="1" step="1"
+										th:value="${item.quantity}" onblur="this.from.submit()">
+								</td>
+								<td>
+									<input type="submit"></input>
+								</td>
+								<td>
+									<p>[[${(item.unitPrice - item.discount/100 * item.unitPrice) * item.quantity}]]
+									</p>
+								</td>
+								<td>
+									<a th:href="@{'/site/shoppingCart/remove/'+${item.productID}}">
+								<i class="bi bi-trash" aria-hidden="true"></i>
+								</a>
+								</td>
+								
+							</form>
+
+						</tr>
+						<!-- 2 -->
+
+					</tbody>
+				</table>
+				</form>
+			</div>
+			<!--  -->
+			<div class="col-4">
+				<h5>Tổng thanh toán</h5>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col"></th>
+							<th scope="col">Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Tổng tiền</td>
+							<td>[[${total}]]</td>
+						</tr>
+						<tr>
+							<td>Số lượng sản phẩm</td>
+							<td>[[${NoOfItems}]]</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row ml-2">
+					<a th:href="@{'/site/orders/add/'+ ${total}}" class="btn btn-danger">Thanh toán ngay</a>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</body>
+
+</html>
